@@ -104,7 +104,7 @@ require([
 		}); // each
 		// Sort
 		var values = Object.keys(titles);
-		//values.sort();
+		values.sort();
 
 		// Add single elements to the new list
 		values.forEach(function(name) {
@@ -173,7 +173,9 @@ require([
 						group: group,
 						name: entry.name,
 						type: entry.type,
-						version: entry.version
+						version: entry.version,
+						uri: entry.url,
+						method: entry.type.toUpperCase()
 					});
 				}
 				else
@@ -184,7 +186,9 @@ require([
 						hidden: true,
 						name: entry.name,
 						type: entry.type,
-						version: entry.version
+						version: entry.version,
+						uri: entry.url,
+						method: entry.type.toUpperCase()
 					});
 				}
 				oldName = entry.name;
@@ -252,6 +256,7 @@ require([
 	 *  Render Sections and Articles
 	 */
 	var articleVersions = {};
+	var usedEntries = [];
 	apiGroups.forEach(function(groupEntry) {
 		groupEntry = groupEntry.title;
 		
@@ -260,6 +265,11 @@ require([
 		var fields = {};
 		var description = "";
 		articleVersions[groupEntry] = {};
+		
+		if (usedEntries.indexOf(groupEntry) != -1) return;
+		
+		usedEntries.push(groupEntry);
+		
 		// Render all Articls of a group.
 		api.forEach(function(entry) {
 			if(groupEntry === entry.group)
@@ -326,9 +336,12 @@ require([
 	// Content-Scroll on Navigation click.
 	$(".sidenav").find("a").on("click", function(e) {
 		e.preventDefault();
-		var id = $(this).attr("href");
-		$('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 400);
-		window.location.hash = $(this).attr("href");
+		
+		if (!$(this).parent().hasClass('title-type')) {
+			var id = $(this).attr("href");
+			$('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 400);
+			window.location.hash = $(this).attr("href");
+		}
 	});
 
 	// Quickjump on Pageload to hash position.
@@ -654,4 +667,19 @@ require([
 	    }).appendTo("head");
 	} // loadGoogleFontCss
 
+	
+	/* Title type */
+	$('.title-type a').on('click', function(e) {
+		e.preventDefault();
+		
+		var type = $(this).data('type');
+		
+		$('a.method-title').each(function() {
+			$(this).text($(this).data(type));
+		});
+		
+		$('.title-type a.selected').removeClass('selected');
+		$(this).addClass('selected');
+	});
+	
 });
