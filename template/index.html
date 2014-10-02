@@ -15,6 +15,10 @@
 <script id="template-sidenav" type="text/x-handlebars-template">
 <nav id="scrollingNav">
   <ul class="sidenav nav nav-list">
+  <div class="title-type">
+    <a href="#" data-type="title" class="selected">[Title]</a>
+    <a href="#" data-type="uri">[URI]</a>
+  </div>
   {{#each nav}}
     {{#if title}}
       {{#if isHeader}}
@@ -25,7 +29,7 @@
         {{/if}}
       {{else}}
         <li {{#if hidden}}class="hide" {{/if}}data-group="{{group}}" data-name="{{name}}" data-version="{{version}}">
-          <a href="#api-{{group}}-{{name}}">{{title}}</a>
+          <a href="#api-{{group}}-{{name}}" class='method-title' data-title="{{title}}" data-uri="{{method}} {{uri}}">{{title}}</a>
         </li>
       {{/if}}
     {{/if}}
@@ -75,7 +79,7 @@
   {{#if template.withGenerator}}
     {{#if generator}}
       <div class="content">
-        {{__ "Generated with"}} <a href="http://apidocjs.com">apiDoc</a> {{{generator.version}}} - {{{generator.time}}}
+        {{__ "Generated with"}} <a href="http://github.com/aluminiumgeek/apidoc">apiDoc</a> {{{generator.version}}} - {{{generator.time}}}
       </div>
     {{/if}}
   {{/if}}

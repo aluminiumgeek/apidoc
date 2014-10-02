@@ -295,6 +295,19 @@ pre.language-json .pun {
   border-left: #e5e5e5 4px solid;
 }
 
+.sidenav .title-type {
+	text-align: right;
+	margin-bottom: 15px;
+}
+
+.sidenav .title-type .selected {
+	color: #000;
+	cursor: default;
+}
+.sidenav .title-type .selected:hover {
+	text-decoration: none;
+}
+
 /* ------------------------------------------------------------------------------------------
  * Compare
  * ------------------------------------------------------------------------------------------ */
