@@ -53,16 +53,23 @@ define([
               delete dict[key];
           }
       } // while     
-
+      
       // send AJAX request, catch success or error callback
-      $.ajax({
+      var params = {
           url: url,
           dataType: "json",
+          timeout: 5000,
           data: dict,
           type: type.toUpperCase(),
           success: displaySuccess,
           error: displayError
-      });
+      }
+      
+      if (type.toUpperCase() == 'GET') {
+          params.dataType = 'jsonp'
+      }
+      
+      $.ajax(params);
 
       function displaySuccess(data) {
           $root.find(".sample-request-response").show();
